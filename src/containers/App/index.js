@@ -36,6 +36,7 @@ class App extends Component {
   }
 
   getFilteredData(data) {
+    if (!data) return null
     const { term } = this.state
 
     return data.reduce((res, item) => {
@@ -50,10 +51,8 @@ class App extends Component {
 
   render() {
     const { data } = this.props
-
-    if (!data) return null
-
     const filteredList = this.getFilteredData(data)
+    const filteredListContainer = !!filteredList ? filteredList : <img src="../../../static/Loading_icon.gif" />
 
     return (
       <div id='mainContainer' style={style.mainContainer}>
@@ -69,7 +68,7 @@ class App extends Component {
 
         <div id="dataList" style={style.dataList} >
           <Scrollbars style={{ width: '100%', height: '400px' }}>
-            {filteredList}
+            {filteredListContainer}
           </Scrollbars>
         </div>
 
