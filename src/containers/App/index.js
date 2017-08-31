@@ -26,22 +26,24 @@ class App extends Component {
     this.getFilteredData = this.getFilteredData.bind(this)
   }
 
+  componentWillMount() {
+    this.props.fetchData()
+  }
+
   onInputChange(e) {
     const term = e.target.value.toLowerCase()
     this.setState({ term })
   }
 
-  componentWillMount() {
-    this.props.fetchData()
-  }
+  getFilteredData(data) {
+    const { term } = this.state
 
-  getFilteredData() {
-    return this.props.data.reduce((res, item) => {
-      const { term } = this.state
+    return data.reduce((res, item) => {
 
       if (item.name.includes(term) || item.email.includes(term) || !term) {
-        res.push(<Datum key={item.id} data={item} term={this.state.term} />)
+        res.push(<Datum key={item.id} data={item} term={term} />)
       }
+
       return res
     }, [])
   }
@@ -49,11 +51,9 @@ class App extends Component {
   render() {
     const { data } = this.props
 
-    if (!data) {
-      return null
-    }
+    if (!data) return null
 
-    const filteredList = this.getFilteredData()
+    const filteredList = this.getFilteredData(data)
 
     return (
       <div id='mainContainer' style={style.mainContainer}>
