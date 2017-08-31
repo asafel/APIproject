@@ -1,58 +1,64 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { fetchData } from '../../actions/api';
+// Actions
+import { fetchData } from '../../actions/api'
 
-import { Scrollbars } from 'react-custom-scrollbars';
-import Datum from '../../components/Datum';
+// Components 
+import { Scrollbars } from 'react-custom-scrollbars'
+import Datum from '../../components/Datum'
 
+// Style
 import style from './style'
 
 
 class App extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       term: ''
-    };
+    }
 
     this.onInputChange = this.onInputChange.bind(this)
+    this.getFilteredData = this.getFilteredData.bind(this)
   }
 
   onInputChange(e) {
-    const term = e.target.value.toLowerCase();
-
-    this.setState({ term });
+    const term = e.target.value.toLowerCase()
+    this.setState({ term })
   }
 
   componentWillMount() {
-    this.props.fetchData();
+    this.props.fetchData()
   }
 
+  getFilteredData() {
+    return this.props.data.reduce((res, item) => {
+      const { term } = this.state
+
+      if (item.name.includes(term) || item.email.includes(term) || !term) {
+        res.push(<Datum key={item.id} data={item} term={this.state.term} />)
+      }
+      return res
+    }, [])
+  }
 
   render() {
-    if (!this.props.data) {
+    const { data } = this.props
+
+    if (!data) {
       return null
     }
 
-    const dataList = this.props.data.filter(item => {
-      const { term } = this.state;
-      const { name, email } = item;
-
-      return !term || name.includes(term) || email.includes(term);
-    })
-
-    const filteredList = dataList.map(item => {
-      return <Datum key={item.id} data={item} term={this.state.term} />;
-    })
+    const filteredList = this.getFilteredData()
 
     return (
       <div>
         <input
-          placeholder="Search for a specific data"
+          placeholder="Search for name or email"
           style={style.searchBar}
           className="form-control"
           value={this.state.term}
@@ -71,8 +77,9 @@ class App extends Component {
 }
 
 function mapStateToProps({ api }) {
-  const { data } = api;
-  return { data };
+  const { data } = api
+
+  return { data }
 }
 
 function mapDispatchToProps(dispatch) {

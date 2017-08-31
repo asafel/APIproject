@@ -6,13 +6,13 @@ const Datum = ({ data, term }) => {
 
     return (
         <div style={style.datumBox}>
-            <span> name:
+            <span> <u>name</u>: &nbsp;&nbsp;
                 <Highlight matchStyle={style.matchStyle} search={term}>
                     {data.name}
                 </Highlight>
             </span>
 
-            <span> email:
+            <span> <u>email</u>:&nbsp;&nbsp;&nbsp;
                  <Highlight matchStyle={style.matchStyle} search={term}>
                     {data.email}
                 </Highlight>
