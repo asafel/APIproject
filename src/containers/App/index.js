@@ -56,16 +56,18 @@ class App extends Component {
     const filteredList = this.getFilteredData()
 
     return (
-      <div>
-        <input
-          placeholder="Search for name or email"
-          style={style.searchBar}
-          className="form-control"
-          value={this.state.term}
-          onChange={this.onInputChange}
-        />
+      <div id='mainContainer' style={style.mainContainer}>
+        <div>
+          <input
+            placeholder="Search for name or email"
+            style={style.searchBar}
+            className="form-control"
+            value={this.state.term}
+            onChange={this.onInputChange}
+          />
+        </div>
 
-        <div id="test" style={style.test} >
+        <div id="dataList" style={style.dataList} >
           <Scrollbars style={{ width: '100%', height: '400px' }}>
             {filteredList}
           </Scrollbars>
