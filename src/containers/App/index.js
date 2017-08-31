@@ -41,18 +41,19 @@ class App extends Component {
     const dataList = this.props.data.filter(item => {
       const { term } = this.state;
       const { name, email } = item;
-      
+
       return !term || name.includes(term) || email.includes(term);
     })
 
     const filteredList = dataList.map(item => {
-      return <Datum key={item.id} data={item} />;
+      return <Datum key={item.id} data={item} term={this.state.term} />;
     })
 
     return (
       <div>
         <input
           placeholder="Search for a specific data"
+          style={style.searchBar}
           className="form-control"
           value={this.state.term}
           onChange={this.onInputChange}

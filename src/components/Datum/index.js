@@ -1,14 +1,25 @@
 import React from 'react';
-import style from './style'
+import Highlight from 'react-highlighter'
+import style from './style';
 
-const Datum = ({ data }) => {
+const Datum = ({ data, term }) => {
 
     return (
         <div style={style.datumBox}>
-            <span>{data.name}</span>
-            <span>{data.email}</span>
+            <span> name:
+                <Highlight matchStyle={style.matchStyle} search={term}>
+                    {data.name}
+                </Highlight>
+            </span>
+
+            <span> email:
+                 <Highlight matchStyle={style.matchStyle} search={term}>
+                    {data.email}
+                </Highlight>
+            </span>
         </div>
     );
+
 }
 
 export default Datum;
