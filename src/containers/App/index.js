@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   onInputChange(e) {
-    const term = e.target.value;
+    const term = e.target.value.toLowerCase();
 
     this.setState({ term });
   }
@@ -38,7 +38,14 @@ class App extends Component {
       return null
     }
 
-    const dataList = this.props.data.map(item => {
+    const dataList = this.props.data.filter(item => {
+      const { term } = this.state;
+      const { name, email } = item;
+      
+      return !term || name.includes(term) || email.includes(term);
+    })
+
+    const filteredList = dataList.map(item => {
       return <Datum key={item.id} data={item} />;
     })
 
@@ -53,7 +60,7 @@ class App extends Component {
 
         <div id="test" style={style.test} >
           <Scrollbars style={{ width: '100%', height: '400px' }}>
-            {dataList}
+            {filteredList}
           </Scrollbars>
         </div>
 
