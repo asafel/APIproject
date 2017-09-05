@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import escapeRegExp from 'lodash/escapeRegExp';
 
 // Actions
 import { fetchData } from '../../actions/api'
@@ -31,22 +32,26 @@ class App extends Component {
   }
 
   onInputChange(e) {
-    const term = e.target.value.toLowerCase()
+    const term = e.target.value;
     this.setState({ term })
   }
 
   getFilteredData(data) {
     if (!data) return null
-    const { term } = this.state
+    const { term } = this.state;
+    let regMark = null;
+    if(term && term.trim()){
+      const reg = new RegExp(escapeRegExp(term), 'i');
+      regMark = new RegExp('(' + escapeRegExp(term) + ')','ig');
+      data = data.filter( ({ name, email}) =>  reg.test(name) || reg.test(email));
+    }
 
-    return data.reduce((res, item) => {
-
-      if (item.name.includes(term) || item.email.includes(term) || !term) {
-        res.push(<Datum key={item.id} data={item} term={term} />)
-      }
-
-      return res
-    }, [])
+    return data.map( ( { id, name, email } ) => {
+      const htmlReplace = '<span style="background-color:yellow;">$1</span>';
+      name = regMark ? name.replace(regMark,htmlReplace) : name;
+      email = regMark ? email.replace(regMark,htmlReplace) : email;
+      return <Datum key={id} name={name} email={email} />
+    });
   }
 
   render() {

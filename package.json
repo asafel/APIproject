@@ -28,7 +28,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "babel-preset-stage-1": "^6.1.18",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.4",
     "react": "^0.14.3",
     "react-addons-update": "^15.6.0",
     "react-custom-scrollbars": "^4.1.2",

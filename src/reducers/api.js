@@ -7,9 +7,9 @@ export default function (state = initialState, action) {
         case 'FETCH_DATA':
             const data = action.payload.data.map(user => {
                 return {
-                    "name": user.name.toLowerCase(),
+                    "name": user.name,
                     "id": user.id,
-                    "email": user.email.toLowerCase()
+                    "email": user.email
                 }
             })
             
